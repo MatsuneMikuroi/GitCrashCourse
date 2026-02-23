@@ -4,7 +4,6 @@ on:
   push:
     branches: [main]
     paths:
-      - 'course/0.TOC.md'
       - 'course/1.Introduction.md'
       - 'course/2.StartingUp.md'
       - 'course/3.WorkingWithGit.md'
@@ -16,7 +15,6 @@ on:
       - 'src/strip-badges.lua'
   pull_request:
     paths:
-      - 'course/0.TOC.md'
       - 'course/1.Introduction.md'
       - 'course/2.StartingUp.md'
       - 'course/3.WorkingWithGit.md'
@@ -54,6 +52,11 @@ jobs:
           # Inject an Appendix heading before the cheat sheets
           printf '\n\\appendix\n\n# Appendix\n\n' > /tmp/appendix_header.md
 
+          # Shift cheat sheet headings down one level (# → ##, ## → ###, etc.)
+          # so they appear as subsections of the Appendix chapter in the PDF
+          sed 's/^#/##/' CheatSheets/GitBashCheatSheet.md  > /tmp/GitBashCheatSheet.md
+          sed 's/^#/##/' CheatSheets/MarkdownCheatSheet.md > /tmp/MarkdownCheatSheet.md
+
           pandoc \
             --from markdown+raw_tex \
             --pdf-engine=xelatex \
@@ -66,21 +69,20 @@ jobs:
             -V date="\today" \
             -V geometry="margin=2.5cm" \
             -V mainfont="Latin Modern Roman" \
-            course/0.TOC.md \
             course/1.Introduction.md \
             course/2.StartingUp.md \
             course/3.WorkingWithGit.md \
             course/4.Conclusion.md \
             /tmp/appendix_header.md \
-            CheatSheets/GitBashCheatSheet.md \
-            CheatSheets/MarkdownCheatSheet.md \
-            -o dist/GitCrashCourse.pdf
+            /tmp/GitBashCheatSheet.md \
+            /tmp/MarkdownCheatSheet.md \
+            -o course/GitCourse.pdf
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
-          name: GitCrashCourse.pdf
-          path: course/GitCrashCourse.pdf
+          name: GitCourse.pdf
+          path: course/GitCourse.pdf
 
       # Optionally commit the generated PDF back to the repo
       - name: Commit PDF to repository
@@ -88,6 +90,6 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add dist/GitCrashCourse.pdf
-          git diff --cached --quiet || git commit -m "docs: regenerate GitCrashCourse.pdf [skip ci]"
+          git add course/GitCourse.pdf
+          git diff --cached --quiet || git commit -m "docs: regenerate GitCourse.pdf [skip ci]"
           git push
