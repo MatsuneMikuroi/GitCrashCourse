@@ -1,0 +1,90 @@
+name: Build Course PDF
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'course/0.TOC.md'
+      - 'course/1.Introduction.md'
+      - 'course/2.StartingUp.md'
+      - 'course/3.WorkingWithGit.md'
+      - 'course/4.Conclusion.md'
+      - 'CheatSheets/GitBashCheatSheet.md'
+      - 'CheatSheets/MarkdownCheatSheet.md'
+      - 'src/**'
+      - '.github/workflows/build-course-pdf.yml'
+  pull_request:
+    paths:
+      - 'course/0.TOC.md'
+      - 'course/1.Introduction.md'
+      - 'course/2.StartingUp.md'
+      - 'course/3.WorkingWithGit.md'
+      - 'course/4.Conclusion.md'
+      - 'CheatSheets/GitBashCheatSheet.md'
+      - 'CheatSheets/MarkdownCheatSheet.md'
+      - 'src/**'
+      - '.github/workflows/build-course-pdf.yml'
+
+jobs:
+  pdf:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Pandoc and LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            pandoc \
+            texlive-xetex \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            lmodern
+
+      - name: Build PDF
+        run: |
+          mkdir -p dist
+
+          # Inject an Appendix heading before the cheat sheets
+          printf '\n\\appendix\n\n# Appendix\n\n' > /tmp/appendix_header.md
+
+          pandoc \
+            --from markdown+raw_tex \
+            --pdf-engine=xelatex \
+            --number-sections \
+            --toc \
+            --toc-depth=2 \
+            -V title="Git Introduction Course" \
+            -V author="Romain De Groote" \
+            -V date="\today" \
+            -V geometry="margin=2.5cm" \
+            -V mainfont="Latin Modern Roman" \
+            course/0.TOC.md \
+            course/1.Introduction.md \
+            course/2.StartingUp.md \
+            course/3.WorkingWithGit.md \
+            course/4.Conclusion.md \
+            /tmp/appendix_header.md \
+            CheatSheets/GitBashCheatSheet.md \
+            CheatSheets/MarkdownCheatSheet.md \
+            -o dist/GitCrashCourse.pdf
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GitCrashCourse-pdf
+          path: dist/GitCrashCourse.pdf
+
+      # Optionally commit the generated PDF back to the repo
+      - name: Commit PDF to repository
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dist/GitCrashCourse.pdf
+          git diff --cached --quiet || git commit -m "docs: regenerate GitCrashCourse.pdf [skip ci]"
+          git push
