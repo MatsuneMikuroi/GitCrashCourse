@@ -13,6 +13,7 @@ on:
       - 'src/**'
       - '.github/workflows/build-course-pdf.yml'
       - 'src/settings.lua'
+      - 'presentation/GitCrashCourse.tex'
   pull_request:
     paths:
       - 'course/1.Introduction.md'
@@ -24,6 +25,7 @@ on:
       - 'src/**'
       - '.github/workflows/build-course-pdf.yml'
       - 'src/settings.lua'
+      - 'presentation/GitCrashCourse.tex'
 
 jobs:
   pdf:
@@ -43,7 +45,8 @@ jobs:
             texlive-xetex \
             texlive-latex-extra \
             texlive-fonts-recommended \
-            lmodern
+            lmodern \
+            latexmk
 
       - name: Build PDF
         run: |
@@ -74,11 +77,33 @@ jobs:
             /tmp/MarkdownCheatSheet.md \
             -o course/GitCourse.pdf
 
-      - name: Upload PDF artifact
+      - name: Build clean presentation PDF
+        run: |
+          # Replace beamer options with 'handout':
+          #   - removes the notes/second-screen panel (no slide duplication)
+          #   - collapses all \onslide / \pause overlays into one slide per frame
+          sed 's/\\documentclass\[.*\]{beamer}/\\documentclass[handout]{beamer}/' \
+            presentation/GitCrashCourse.tex > /tmp/GitCrashCourse_handout.tex
+
+          latexmk -xelatex -interaction=nonstopmode \
+            -jobname=GitCrashCourse_handout \
+            -output-directory=presentation \
+            /tmp/GitCrashCourse_handout.tex
+
+          # Clean auxiliary files, keep only the PDF
+          latexmk -c -jobname=GitCrashCourse_handout -output-directory=presentation
+
+      - name: Upload course PDF artifact
         uses: actions/upload-artifact@v4
         with:
           name: GitCourse.pdf
           path: course/GitCourse.pdf
+
+      - name: Upload presentation PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GitCrashCourse_handout.pdf
+          path: presentation/GitCrashCourse_handout.pdf
 
       # Optionally commit the generated PDF back to the repo
       - name: Commit PDF to repository
@@ -86,6 +111,6 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add course/GitCourse.pdf
-          git diff --cached --quiet || git commit -m "docs: regenerate GitCourse.pdf [skip ci]"
+          git add course/GitCourse.pdf dist/GitCrashCourse_handout.pdf
+          git diff --cached --quiet || git commit -m "docs: regenerate PDFs [skip ci]"
           git push
