@@ -1,7 +1,7 @@
 # ReadMe -- Git Crash Course
 
-[![github repo link](https://img.shields.io/badge/github-repository-blue?logo=github)](https://github.com/MatsuneMikuroi/GitCrashCourse)
-[![license](https://img.shields.io/badge/license-MIT-purple)](./LICENSE)
+[![github repo link](https://img.shields.io/badge/GitHub-repository-blue?logo=github)](https://github.com/MatsuneMikuroi/GitCrashCourse)
+[![license](https://img.shields.io/badge/©%20License-MIT-purple)](./LICENSE)
 ![Lastest version](https://img.shields.io/github/last-commit/MatsuneMikuroi/GitCrashCourse/main?path=readme.md&label=Latest%20Version)
 
 This repository contains a small course introducing Git, a popular version control system used by developers worldwide. This course is designed for beginners and covers the basics of Git, including how to set up a repository, make commits, and collaborate with others. By the end of this course, you will have a solid understanding of Git and be able to use it to manage your code and collaborate with others effectively.
