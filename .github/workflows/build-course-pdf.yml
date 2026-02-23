@@ -12,7 +12,7 @@ on:
       - 'CheatSheets/MarkdownCheatSheet.md'
       - 'src/**'
       - '.github/workflows/build-course-pdf.yml'
-      - 'src/strip-badges.lua'
+      - 'src/settings.lua'
   pull_request:
     paths:
       - 'course/1.Introduction.md'
@@ -23,7 +23,7 @@ on:
       - 'CheatSheets/MarkdownCheatSheet.md'
       - 'src/**'
       - '.github/workflows/build-course-pdf.yml'
-      - 'src/strip-badges.lua'
+      - 'src/settings.lua'
 
 jobs:
   pdf:
@@ -60,7 +60,7 @@ jobs:
           pandoc \
             --from markdown+raw_tex \
             --pdf-engine=xelatex \
-            --lua-filter=src/strip-badges.lua \
+            --lua-filter=src/settings.lua \
             --number-sections \
             --toc \
             --toc-depth=2 \

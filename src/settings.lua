@@ -6,10 +6,15 @@
 function Pandoc(doc)
   local title = doc.meta.title
   if title then
-    local git_logo = pandoc.Image({pandoc.Str("Git Logo")}, "./GitLogo.png")
-    local title_with_logo = pandoc.Para({git_logo, pandoc.Space(), title})
-    doc.meta.title = title_with_logo
+    local git_logo = pandoc.Image({pandoc.Str("Git Logo")}, "src/GitLogo.png")
+    doc.meta.title = pandoc.MetaInlines({
+      git_logo,
+      pandoc.LineBreak(),
+      pandoc.Str("Git Introduction Course")
+})
   end
+  -- Insert \newpage after the TOC (first block of the body)
+  table.insert(doc.blocks, 1, pandoc.RawBlock("latex", "\\newpage"))
   return doc
 end
 
@@ -30,10 +35,11 @@ function Link(el)
   end
 end
 
--- Insert \newpage before every top-level (H1) heading
+-- Insert \newpage before every top-level (H1) heading and before the TOC
 function Header(el)
   if el.level == 1 then
     local newpage = pandoc.RawBlock("latex", "\\newpage")
     return { newpage, el }
   end
 end
+
