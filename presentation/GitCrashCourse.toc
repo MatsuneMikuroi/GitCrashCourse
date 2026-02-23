@@ -1,0 +1,12 @@
+\beamer@sectionintoc {1}{Why Git?}{2}{0}{1}
+\beamer@sectionintoc {2}{Starting up}{6}{0}{2}
+\beamer@sectionintoc {3}{Cloning a repository}{11}{0}{3}
+\beamer@sectionintoc {4}{Initializing a repository}{12}{0}{4}
+\beamer@sectionintoc {5}{Branching}{13}{0}{5}
+\beamer@sectionintoc {6}{Working with branches}{17}{0}{6}
+\beamer@sectionintoc {7}{Linking local and remote}{20}{0}{7}
+\beamer@subsectionintoc {7}{1}{Github Desktop}{21}{0}{7}
+\beamer@subsectionintoc {7}{2}{Git Kraken}{22}{0}{7}
+\beamer@subsectionintoc {7}{3}{IDE}{23}{0}{7}
+\beamer@subsectionintoc {7}{4}{SSH keys and Personal Access Tokens (PAT)}{24}{0}{7}
+\beamer@sectionintoc {8}{Conclusion}{29}{0}{8}
