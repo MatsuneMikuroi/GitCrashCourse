@@ -10,7 +10,7 @@ This repository contains a small course introducing Git, a popular version contr
 
 For this course, a script is provided in the [course](./course) folder, you can read it as markdown files, or you can also find a PDF version of the course in the same folder. There is also a PDF presentation in the [presentation](./presentation)[^1] folder. Finally, there is a [Git Bash Cheat Sheet](./CheatSheets/GitBashCheatSheet.md) in the [CheatSheets](./CheatSheets) folder to help you remember the most important commands.
 
-[![Course](https://img.shields.io/badge/Course-blue)](./course/0.TOC.md)
+[![Course-Markdown](https://img.shields.io/badge/Course-Markdown-blue)](./course/0.TOC.md) [![Course-PDF](https://img.shields.io/badge/Course-PDF-blue)](./course/GitCourse.pdf) [![Presentation](https://img.shields.io/badge/Course-Presentation-orange)](./presentation/GitCrashCourse.pdf)
 
 ## Acknowledgements
 
