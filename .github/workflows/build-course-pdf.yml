@@ -79,19 +79,23 @@ jobs:
 
       - name: Build clean presentation PDF
         run: |
-          # Replace beamer options with 'handout':
-          #   - removes the notes/second-screen panel (no slide duplication)
-          #   - collapses all \onslide / \pause overlays into one slide per frame
+          # Write the patched file into presentation/ so that relative image
+          # paths (./../src/...) resolve correctly during compilation.
           sed 's/\\documentclass\[.*\]{beamer}/\\documentclass[handout]{beamer}/' \
-            presentation/GitCrashCourse.tex > /tmp/GitCrashCourse_handout.tex
+            presentation/GitCrashCourse.tex > presentation/GitCrashCourse_handout.tex
 
-          latexmk -xelatex -interaction=nonstopmode \
+          # -cd: latexmk changes to the input file's directory before compiling
+          # Use absolute $PWD path for -output-directory so it is not affected by -cd
+          latexmk -xelatex -cd -interaction=nonstopmode \
             -jobname=GitCrashCourse_handout \
-            -output-directory=presentation \
-            /tmp/GitCrashCourse_handout.tex
+            -output-directory="$PWD/presentation" \
+            presentation/GitCrashCourse_handout.tex
 
           # Clean auxiliary files, keep only the PDF
-          latexmk -c -jobname=GitCrashCourse_handout -output-directory=presentation
+          latexmk -c -jobname=GitCrashCourse_handout -output-directory="$PWD/presentation"
+
+          # Remove the temporary patched source file
+          rm presentation/GitCrashCourse_handout.tex
 
       - name: Upload course PDF artifact
         uses: actions/upload-artifact@v4
@@ -111,6 +115,6 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add course/GitCourse.pdf dist/GitCrashCourse_handout.pdf
+          git add course/GitCourse.pdf presentation/GitCrashCourse_handout.pdf
           git diff --cached --quiet || git commit -m "docs: regenerate PDFs [skip ci]"
           git push
