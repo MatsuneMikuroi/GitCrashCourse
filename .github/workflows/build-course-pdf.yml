@@ -47,8 +47,6 @@ jobs:
 
       - name: Build PDF
         run: |
-          mkdir -p dist
-
           # Inject an Appendix heading before the cheat sheets
           printf '\n\\appendix\n\n# Appendix\n\n' > /tmp/appendix_header.md
 
@@ -62,8 +60,6 @@ jobs:
             --pdf-engine=xelatex \
             --lua-filter=src/settings.lua \
             --number-sections \
-            --toc \
-            --toc-depth=2 \
             -V title="Git Introduction Course" \
             -V author="Romain De Groote" \
             -V date="\today" \

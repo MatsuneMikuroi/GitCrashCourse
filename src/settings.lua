@@ -2,19 +2,27 @@
 --   1. Remove external HTTP(S) images (shields.io badges) from PDF output.
 --   2. Insert \newpage before every level-1 heading (new page per section).
 
--- Add Git Logo to the title page
+-- Inject logo above the title via the LaTeX 'titling' package (preamble),
+-- and manually place \tableofcontents between two \newpage blocks so that
+-- the page order is: title page → \newpage → TOC → \newpage → content.
 function Pandoc(doc)
-  local title = doc.meta.title
-  if title then
-    local git_logo = pandoc.Image({pandoc.Str("Git Logo")}, "src/GitLogo.png")
-    doc.meta.title = pandoc.MetaInlines({
-      git_logo,
-      pandoc.LineBreak(),
-      pandoc.Str("Git Introduction Course")
-})
-  end
-  -- Insert \newpage after the TOC (first block of the body)
-  table.insert(doc.blocks, 1, pandoc.RawBlock("latex", "\\newpage"))
+  -- Add logo + titling customisation to the LaTeX preamble
+  doc.meta["header-includes"] = pandoc.MetaBlocks({
+    pandoc.RawBlock("latex", table.concat({
+      "\\usepackage{graphicx}",
+      "\\usepackage{titling}",
+      "\\pretitle{\\begin{center}" ..
+        "\\includegraphics[width=0.3\\textwidth]{src/GitLogo.png}\\\\[0.8cm]" ..
+        "{\\Huge\\bfseries}}",
+      "\\posttitle{\\end{center}}"
+    }, "\n"))
+  })
+
+  -- Build \newpage → \tableofcontents → \newpage as the first 3 body blocks.
+  -- They land right after \maketitle (which the template emits before $body$).
+  table.insert(doc.blocks, 1, pandoc.RawBlock("latex", "\\newpage"))           -- (3) after TOC
+  table.insert(doc.blocks, 1, pandoc.RawBlock("latex", "\\tableofcontents"))   -- (2) TOC
+  table.insert(doc.blocks, 1, pandoc.RawBlock("latex", "\\newpage"))           -- (1) after title
   return doc
 end
 
