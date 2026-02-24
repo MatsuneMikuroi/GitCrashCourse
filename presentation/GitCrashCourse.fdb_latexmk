@@ -1,12 +1,12 @@
 # Fdb version 4
-["pdflatex"] 1771858638.20842 "c:/onedrive/documents/github/CrashCourses/Git/presentation/GitCrashCourse.tex" "GitCrashCourse.pdf" "GitCrashCourse" 1771858643.55155 0
+["pdflatex"] 1771913465.67434 "c:/onedrive/documents/github/CrashCourses/Git/presentation/GitCrashCourse.tex" "GitCrashCourse.pdf" "GitCrashCourse" 1771913474.52718 0
   "../src/GitLogo.png" 1771854563 2383 9ceceba2388450a6d4c567713db50ed0 ""
   "../src/panic.png" 1771840770 22203 2f5c4b36d139bf0f27c6196dca1b91ae ""
-  "GitCrashCourse.aux" 1771858643 5900 ab3f18af99babdd6fb4643f37deceb7d "pdflatex"
-  "GitCrashCourse.nav" 1771858643 3617 2ddef0ca44323b87e37a9c4aa804e412 "pdflatex"
-  "GitCrashCourse.out" 1771858643 1622 4c0f7e7fed8dc939a5df2af76b402e0a "pdflatex"
-  "c:/OneDrive/Documents/GitHub/CrashCourses/Git/presentation/GitCrashCourse.tex" 1771858633 11461 666825ad361b6e83686aa416699508c5 ""
-  "c:/onedrive/documents/github/CrashCourses/Git/presentation/GitCrashCourse.tex" 1771858633 11461 666825ad361b6e83686aa416699508c5 ""
+  "GitCrashCourse.aux" 1771913473 5900 ab3f18af99babdd6fb4643f37deceb7d "pdflatex"
+  "GitCrashCourse.nav" 1771913473 3617 2ddef0ca44323b87e37a9c4aa804e412 "pdflatex"
+  "GitCrashCourse.out" 1771913473 1622 4c0f7e7fed8dc939a5df2af76b402e0a "pdflatex"
+  "c:/OneDrive/Documents/GitHub/CrashCourses/Git/presentation/GitCrashCourse.tex" 1771913461 11404 ece04ea57a6591f5f64229d251eb624a ""
+  "c:/onedrive/documents/github/CrashCourses/Git/presentation/GitCrashCourse.tex" 1771913461 11404 ece04ea57a6591f5f64229d251eb624a ""
   "c:/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1716798433 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2024/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1716792775 1004 54797486969f23fa377b128694d548df ""
   "c:/texlive/2024/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1716792775 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
